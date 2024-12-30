@@ -1,37 +1,8 @@
-// import mongoose from "mongoose";
-
-// let isConnected = false;
-
-// export const connectToDB = async () => {
-//   mongoose.set("strictQuery", true);
-//   if (isConnected) {
-//     console.log("MongoDB is already connected");
-//     return;
-//   }
-
-//   console.log(process.env.MONGODB_URI);
-
-//   try {
-//     await mongoose.connect(process.env.MONGODB_URI, {
-//       dbName: "share_prompt",
-//       serverSelectionTimeoutMS: 30000,
-//     });
-//     isConnected = true;
-//     console.log("MongoDB connected");
-//   } catch (error) {
-//     console.log("MongoDB connection error:", error.message);
-//     console.log("MongoDB URI:", process.env.MONGODB_URI);
-//   }
-// };
-
-// // Call the connectToDB function to initiate the connection
-// connectToDB();
-// lib/database.js
 import mongoose from "mongoose";
 
 let isConnected = false;
 
-export const connectToDB = async () => {
+const connectToDB = async () => {
   mongoose.set("strictQuery", true);
 
   if (isConnected) {
@@ -46,8 +17,6 @@ export const connectToDB = async () => {
 
     await mongoose.connect(process.env.MONGODB_URI, {
       dbName: "PrintMasterPro",
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
     });
 
     isConnected = true;
@@ -57,3 +26,5 @@ export const connectToDB = async () => {
     throw error;
   }
 };
+
+export default connectToDB;

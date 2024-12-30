@@ -6,12 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, MapPin, Printer } from "lucide-react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+// import { response } from "express";
 
 const shops = [
   {
     id: 1,
     name: "Quick Print Solutions",
     image: "/placeholder.svg?height=200&width=300&text=Quick+Print",
+
     location: "Indiranagar, Bangalore",
     rating: 4.5,
     workload: "Low",
@@ -37,38 +41,61 @@ const shops = [
   },
 ];
 
+// useEffect(() => {
+//   axios.get("http://localhost:3000/api/shops").then((response) => {
+//     console.log(response);
+//   });
+// }, [0]);
+
 export function ShopGrid() {
+  const [shop, setShops] = useState([]);
+
+  useEffect(() => {
+    const fetchShops = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/shops");
+        setShops(response.data.totalShops);
+      } catch (error) {
+        console.error("Error fetching shops:", error);
+      }
+    };
+
+    fetchShops();
+  }, []);
+
   const router = useRouter();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-      {shops.map((shop) => (
+      {shop.map((shop) => (
         <Card
           key={shop.id}
           className="overflow-hidden hover:shadow-lg transition-shadow"
         >
           <div className="relative h-48">
             <Image
-              src={shop.image}
-              alt={shop.name}
+              src={shop.shop_image} // Dynamically use shop.shop_image
+              alt={shop.fullName || "Shop Image"} // Provide a fallback for alt text
               fill
               className="object-cover"
             />
           </div>
           <CardHeader>
             <div className="flex justify-between items-start">
-              <CardTitle className="text-xl font-bold">{shop.name}</CardTitle>
+              <CardTitle className="text-xl font-bold">
+                {shop.fullName}
+              </CardTitle>
               <Badge
                 variant="secondary"
                 className={
-                  shop.workload === "Low"
+                  shop.shop_queue === "Low"
                     ? "bg-green-100 text-green-800"
                     : shop.workload === "Medium"
                     ? "bg-yellow-100 text-yellow-800"
                     : "bg-red-100 text-red-800"
                 }
               >
-                {shop.workload} Queue
+                {shop.shop_queue} Queue
               </Badge>
             </div>
           </CardHeader>
@@ -89,7 +116,7 @@ export function ShopGrid() {
                 </div>
                 <Button
                   className="bg-[#00ADB5] hover:bg-[#393E46] text-white"
-                  onClick={() => router.push(`/create-order/${shop.id}`)}
+                  onClick={() => router.push(`/create-order/${shop.fullName}`)}
                 >
                   Select Shop
                 </Button>

@@ -78,7 +78,7 @@
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { connectToDB } from "../../../lib/database.js";
+import connectToDB from "@/app/lib/database.js";
 import User from "../../../models/user.js";
 
 const authOptions = {

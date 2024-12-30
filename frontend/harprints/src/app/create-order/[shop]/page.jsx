@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/user/header";
 import { Footer } from "@/components/user/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,7 +20,21 @@ import { Upload, CreditCard } from "lucide-react";
 
 export default function CreateOrder({ params }) {
   const [selectedSheetType, setSelectedSheetType] = useState("");
+  const [shopName, setShopName] = useState("");
+
   const router = useRouter();
+
+  // Use React.use() to unwrap the params
+  useEffect(() => {
+    const fetchShopName = async () => {
+      const resolvedParams = await params;
+      if (resolvedParams && resolvedParams.shop) {
+        setShopName(resolvedParams.shop.replace(/%20/g, " "));
+      }
+    };
+
+    fetchShopName();
+  }, [params]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +49,7 @@ export default function CreateOrder({ params }) {
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-[#222831]">
-                Quick Print Solutions - Indiranagar
+                {shopName || "Loading..."}
               </CardTitle>
             </CardHeader>
           </Card>
