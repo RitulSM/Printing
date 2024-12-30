@@ -112,7 +112,9 @@ export function ShopGrid() {
               <div className="flex items-center justify-between mt-4">
                 <div className="flex items-center">
                   <Printer className="w-4 h-4 mr-2 text-[#00ADB5]" />
-                  <span className="text-sm font-medium">⭐ {shop.rating}</span>
+                  <span className="text-sm font-medium">
+                    ⭐*shop.rating ({shop.rating})
+                  </span>
                 </div>
                 <Button
                   className="bg-[#00ADB5] hover:bg-[#393E46] text-white"

@@ -49,6 +49,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "thumbs.dreamstime.com",
       },
+      {
+        protocol: "https",
+        hostname: "media.gettyimages.com",
+      },
     ],
   },
 };
